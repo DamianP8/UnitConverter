@@ -1,6 +1,5 @@
 package com.hivenex.unitconverter
 
-import android.R
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -67,12 +67,12 @@ fun UnitConverter(){
     var outputUnit by remember { mutableStateOf("Meters") }
     var iExpanded by remember { mutableStateOf(false) }
     var oExpanded by remember { mutableStateOf(false) }
-    val iConversionFactor = remember { mutableStateOf( 1.00) }
-    val oConversionFactor = remember { mutableStateOf(1.00) }
+    val iConversionFactor = remember { mutableDoubleStateOf( 1.00) }
+    val oConversionFactor = remember { mutableDoubleStateOf(1.00) }
 
     fun convertUnits(){
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
-        val result = (inputValueDouble * iConversionFactor.value * 100.0 / oConversionFactor.value).roundToInt() / 100.0
+        val result = (inputValueDouble * iConversionFactor.doubleValue * 100.0 / oConversionFactor.doubleValue).roundToInt() / 100.0
         outputValue = result.toString()
     }
 
@@ -92,9 +92,9 @@ fun UnitConverter(){
             },
             label = {Text("Enter Value")})
         Spacer(modifier = Modifier.size(32.dp))
-        Row() {
+        Row {
             //Input
-            Box() {
+            Box {
                 Button(onClick = {iExpanded = true}) {
                     Text(inputUnit)
                     Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Arrow Down")
@@ -106,7 +106,7 @@ fun UnitConverter(){
                         onClick = {
                             iExpanded = false
                             inputUnit = "Centimeters"
-                            iConversionFactor.value = 0.01
+                            iConversionFactor.doubleValue = 0.01
                             convertUnits()
                         }
                     )
@@ -115,7 +115,7 @@ fun UnitConverter(){
                         onClick = {
                             iExpanded = false
                             inputUnit = "Meters"
-                            iConversionFactor.value = 1.0
+                            iConversionFactor.doubleValue = 1.0
                             convertUnits()
                         }
                     )
@@ -124,7 +124,7 @@ fun UnitConverter(){
                         onClick = {
                             iExpanded = false
                             inputUnit = "Feet"
-                            iConversionFactor.value = 0.3048
+                            iConversionFactor.doubleValue = 0.3048
                             convertUnits()
                         }
                     )
@@ -133,7 +133,7 @@ fun UnitConverter(){
                         onClick = {
                             iExpanded = false
                             inputUnit = "Millimeters"
-                            iConversionFactor.value = 0.001
+                            iConversionFactor.doubleValue = 0.001
                             convertUnits()
                         }
                     )
@@ -142,7 +142,7 @@ fun UnitConverter(){
             }
             Spacer(modifier = Modifier.size(64.dp))
             //Output
-            Box() {
+            Box {
                 Button(onClick = {oExpanded = true}) {
                     Text(outputUnit)
                     Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Arrow Down")
@@ -156,7 +156,7 @@ fun UnitConverter(){
                         onClick = {
                             oExpanded = false
                             outputUnit = "Centimeters"
-                            oConversionFactor.value = 0.01
+                            oConversionFactor.doubleValue = 0.01
                             convertUnits()
                         }
                     )
@@ -165,7 +165,7 @@ fun UnitConverter(){
                         onClick = {
                             oExpanded = false
                             outputUnit = "Meters"
-                            oConversionFactor.value = 1.0
+                            oConversionFactor.doubleValue = 1.0
                             convertUnits()
                         }
                     )
@@ -174,7 +174,7 @@ fun UnitConverter(){
                         onClick = {
                             oExpanded = false
                             outputUnit = "Feet"
-                            oConversionFactor.value = 0.3048
+                            oConversionFactor.doubleValue = 0.3048
                             convertUnits()
                         }
                     )
@@ -183,7 +183,7 @@ fun UnitConverter(){
                         onClick = {
                             oExpanded = false
                             outputUnit = "Millimeters"
-                            oConversionFactor.value = 0.001
+                            oConversionFactor.doubleValue = 0.001
                             convertUnits()
                         }
                     )
@@ -192,7 +192,7 @@ fun UnitConverter(){
             }
         }
         Spacer(modifier = Modifier.size(32.dp))
-        Text("Result:$outputValue $outputUnit",
+        Text("Result: $outputValue $outputUnit",
             style = MaterialTheme.typography.headlineMedium
             )
 
